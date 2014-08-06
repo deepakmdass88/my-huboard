@@ -1,0 +1,18 @@
+require "bundler"
+Bundler.require
+
+require 'sass'
+require 'bourbon'
+
+require 'sinatra/asset_pipeline/task.rb'
+require './lib/bootstrap'
+Sinatra::AssetPipeline::Task.define! Huboard::App
+
+namespace :couch do 
+  desc "push development documents"
+  task "dev:push" do
+    Dir.chdir "couch" do
+      `couch-docs push http://127.0.0.1:5984/huboard -d`
+    end
+  end
+end
